@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<>
+<head>
+    <title>Smart CCTV</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 20px;
+            margin: 20px auto;
+            width: 60%;
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            background: #38bdf8;
+            color: black;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        input {
+            margin: 10px;
+        }
+
+        ul {
+            list-style: none;
+        }
+    </style>
+</head>
+<>
+
+<h1>🚀 Smart CCTV System</h1>
+
+<div class="card">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="video">
+        <button type="submit">Upload Video</button>
+    </form>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button name="live">Start Live Camera</button>
+    </form>
+</div>
+
+<div class="card">
+    <!-- 🔔 ALERT MESSAGE -->
+    {% if alert %}
+        <div style="background:red; padding:10px; margin:10px;">
+            {{ alert }}
+        </div>
+    {% endif %}
+
+    <h2>Detected Objects</h2>
+    {% if result %}
+        <ul>
+            {% for r in result %}
+                <li>{{ r }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No detection yet</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2>Recent Logs</h2>
+    <ul>
+        {% for d in data %}
+            <li>{{ d.object_name }} - {{ d.timestamp }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- 📊 GRAPH SECTION -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<canvas id="chart" width="400" height="200"></canvas>
+
+<script>
+    const data = {
+        labels: [{% for item in chart_data %}'{{ item.object_name }}',{% endfor %}],
+        datasets: [{
+            label: 'Detection Count',
+            data: [{% for item in chart_data %}{{ item.count }},{% endfor %}],
+        }]
+    };
+
+    new Chart(document.getElementById('chart'), {
+        type: 'bar',
+        data: data
+    });
+</script>
+</body>
+</html>
