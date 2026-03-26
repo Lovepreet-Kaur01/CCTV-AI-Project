@@ -7,6 +7,7 @@ from django.db.models import Count
 @login_required
 def home(request):
     result = None
+    alert = None
 
     if request.method == "POST":
 
@@ -22,8 +23,6 @@ def home(request):
 
         elif 'live' in request.POST:
             result = live_detection()
-
-        alert = None
 
         if result:
             for obj in result:
