@@ -1,0 +1,26 @@
+.profile-card{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    background:#181818;
+    padding:15px 20px;
+    border-radius:15px;
+    width:320px;
+    margin-bottom:20px;
+}
+
+.profile-left img{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+}
+
+.profile-right h3{
+    color:white;
+    margin:0;
+}
+
+.profile-right p{
+    color:#b3b3b3;
+    margin:5px 0 0;
+}
